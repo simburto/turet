@@ -14,7 +14,11 @@ import socket
 import time 
 
 # Constants
-MIN_DETECTION_CONFIDENCE = 0.5
+####################################
+RASPBERRY_PICO_IP = "192.158.1.113"#
+PORT = 12345                       #
+####################################
+MIN_DETECTION_CONFIDENCE = 0.7
 MIN_TRACKING_CONFIDENCE = 0.5
 FONT = cv2.FONT_HERSHEY_SIMPLEX
 FONT_SIZE = 1
@@ -22,8 +26,6 @@ FONT_COLOR = (0, 0, 255)
 RECTANGLE_COLOR = (0, 255, 0)
 CENTER_DOT_COLOR = (0, 0, 255)
 TEXT_OFFSET = 30
-RASPBERRY_PICO_IP = "192.158.1.113"
-PORT = 12345
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 # Initialize pose estimator
