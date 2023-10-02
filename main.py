@@ -1,3 +1,12 @@
+import subprocess
+import sys
+
+def install(name):
+    subprocess.call([sys.executable, '-m', 'pip', 'install', name])
+
+install("opencv-python")
+install("mediapipe")
+
 import cv2
 import mediapipe as mp
 import math
