@@ -4,12 +4,12 @@ from utime import sleep
 import re
 from machine import Pin
 from servo import Servo
+
+#servo stuff
 hpos = 0
 vpos = 0
 vservo = Servo(pin_id=16)
 hservo = Servo(pin_id=15)
-vservo.write(90)
-hservo.write(90)
 
 led = Pin(25, Pin.OUT)
 
@@ -32,6 +32,8 @@ except KeyboardInterrupt:
 # Create a socket for communication
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s.bind(('0.0.0.0', 12345))  # Bind to all available network interfaces
+vservo.write(90)
+hservo.write(90)
 
 result = [0]
 while True:
