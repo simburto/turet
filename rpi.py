@@ -4,6 +4,8 @@ from utime import sleep
 import re
 from machine import Pin
 from servo import Servo
+hpos = 0
+vpos = 0
 vservo = Servo(pin_id=16)
 hservo = Servo(pin_id=15)
 vservo.write(90)
@@ -43,13 +45,16 @@ while True:
         result = decode[1:]
         horizontal_angle = float(result)
         print(horizontal_angle)
-        print(position)
-        hservo.write(position)
+        hpos = hpos + horizontal_angle/10
+        if hpos < 200:
+            hservo.write(hpos)
     elif decode[0] == 'v':
         result = decode[1:]
         vertical_angle = float(result)
         print(vertical_angle)
-        vservo.write(position)
+        vpos = vpos + vertical_angle/10
+        if vpos < 200:
+            vservo.write(vpos)
 
     
         
