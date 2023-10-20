@@ -3,6 +3,11 @@ import network
 from utime import sleep
 import re
 from machine import Pin
+from servo import Servo
+vservo = Servo(pin_id=16)
+hservo = Servo(pin_id=15)
+vservo.write(90)
+hservo.write(90)
 
 led = Pin(25, Pin.OUT)
 
@@ -38,10 +43,14 @@ while True:
         result = decode[1:]
         horizontal_angle = float(result)
         print(horizontal_angle)
+        print(position)
+        hservo.write(position)
     elif decode[0] == 'v':
         result = decode[1:]
         vertical_angle = float(result)
         print(vertical_angle)
+        vservo.write(position)
+
     
         
     
