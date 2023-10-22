@@ -45,17 +45,14 @@ try:
         if decode[0] == 'c':
             FIRE = True
             print("FIRE")
-            decode = decode[1:]
         elif decode[0] == 'h':
             result = decode[1:]
             horizontal_angle = float(result)
             print(horizontal_angle)
-            decode = decode[1:]
         elif decode[0] == 'v':
             result = decode[1:]
             vertical_angle = float(result)
             print(vertical_angle)
-            decode = decode[1:]
 except KeyboardInterrupt:
     connection.close()
     machine.reset()
