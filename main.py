@@ -106,14 +106,11 @@ while cap.isOpened():
                 csend = 'c'
                 print(csend)
                 sock.send(csend.encode())
-                sock.recvfrom(1024)
             else: 
                 print(vsend)
                 sock.send(vsend.encode())
-                sock.recvfrom(1024)
                 print(hsend)
                 sock.send(hsend.encode())
-                sock.recvfrom(1024)
         # Display the frame
         cv2.imshow('Output', frame)
     

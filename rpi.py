@@ -39,8 +39,9 @@ try:
         print('receiving')
         print(connection)
         data = conn.recv(1024)
-        print(conn.send(ip.encode()))
-        decode = data.decode()
+        decode = data.decode().split('v').split('h').split('c')
+        if len(decode) > 1:
+            decode = decode[0]
         print(decode)
         led.toggle()
         if decode[0] == 'c':
