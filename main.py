@@ -14,9 +14,10 @@ import socket
 import time 
 
 # Constants
+# destination = '192.168.1.108:80'
 ####################################
-RASPBERRY_PICO_IP = "192.158.1.113"#
-PORT = 12345                       #
+RASPBERRY_PICO_IP = '192.168.1.108'#
+PORT = 80                      #
 ####################################
 MIN_DETECTION_CONFIDENCE = 0.7
 MIN_TRACKING_CONFIDENCE = 0.5
@@ -102,10 +103,14 @@ while cap.isOpened():
                 inside = True
                 cv2.putText(frame, "COLISHUN", (30, TEXT_OFFSET * 3), FONT, FONT_SIZE, FONT_COLOR, 1)
                 csend = 'c'
+                print(csend)
                 sock.sendto(csend.encode(), (RASPBERRY_PICO_IP, PORT))
+                time.sleep(0.05)
             else: 
+                print(vsend)
                 sock.sendto(vsend.encode(), (RASPBERRY_PICO_IP, PORT))
                 time.sleep(0.05)
+                print(hsend)
                 sock.sendto(hsend.encode(), (RASPBERRY_PICO_IP, PORT))
         # Display the frame
         cv2.imshow('Output', frame)
