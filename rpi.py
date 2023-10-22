@@ -40,21 +40,23 @@ try:
         print(connection)
         data = conn.recv(1024)
         decode = data.decode().split('v').split('h').split('c')
-        if len(decode) > 1:
-            decode = decode[0]
+        val = decode[0]
         print(decode)
         led.toggle()
-        if decode[0] == 'c':
+        if val[0] == 'c':
             FIRE = True
             print("FIRE")
-        elif decode[0] == 'h':
-            result = decode[1:]
+            decode = decode[1:]
+        elif val[0] == 'h':
+            result = val[1:]
             horizontal_angle = float(result)
             print(horizontal_angle)
-        elif decode[0] == 'v':
-            result = decode[1:]
+            decode = decode[1:]
+        elif val[0] == 'v':
+            result = val[1:]
             vertical_angle = float(result)
             print(vertical_angle)
+            decode = decode[1:]
 except KeyboardInterrupt:
     connection.close()
     machine.reset()
