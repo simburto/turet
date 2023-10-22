@@ -103,14 +103,20 @@ while cap.isOpened():
             if min_x <= truecen[0] <= max_x and min_y <= truecen[1] <= max_y:
                 inside = True
                 cv2.putText(frame, "COLISHUN", (30, TEXT_OFFSET * 3), FONT, FONT_SIZE, FONT_COLOR, 1)
-                csend = 'c'
+                csend = 'c00000'
                 print(csend)
                 sock.send(csend.encode())
+                time.sleep(0.05)
             else: 
+                while len(vsend) < 6:
+                    vsend = vsend + '0'
                 print(vsend)
                 sock.send(vsend.encode())
+                time.sleep(0.05)
+                while len(hsend) < 6:
+                    hsend = hsend + '0'
                 print(hsend)
-                sock.send(hsend.encode())
+                print(sock.send(hsend.encode()))
         # Display the frame
         cv2.imshow('Output', frame)
     
