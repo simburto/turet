@@ -1,11 +1,23 @@
 import subprocess
 import sys
 
-def install(name):
-    subprocess.call([sys.executable, '-m', 'pip', 'install', name])
-
-install("opencv-python")
-install("mediapipe")
+try: 
+  if open('cache.txt', 'r').read() != '1':
+    packages = open('requirements.txt', 'r').read().splitlines()
+    print("installing dependencies")
+    for i in range(len(packages)):
+      subprocess.check_call([sys.executable, "-m", "pip", "install", packages[i]])
+    with open('cache.txt', 'w') as f:
+      f.write('1')
+except:
+  open('cache.txt', 'w')
+  print("created cache file")
+  print("installing dependencies")
+  packages = open('requirements.txt', 'r').read().splitlines()
+  for i in range(len(packages)):
+    subprocess.check_call([sys.executable, "-m", "pip", "install", packages[i]])
+  with open('cache.txt', 'w') as f:
+    f.write('1')
 
 import cv2
 import mediapipe as mp
