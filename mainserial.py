@@ -10,25 +10,19 @@ install("mediapipe")
 import cv2
 import mediapipe as mp
 import math
-import socket
+import serial
 import time 
 
-# Constants
-# destination = '192.168.1.108:80'
-####################################
-RASPBERRY_PICO_IP = '192.168.1.108'#
-PORT = 8080                      #
-####################################
-MIN_DETECTION_CONFIDENCE = 0.7
-MIN_TRACKING_CONFIDENCE = 0.3
+MIN_DETECTION_CONFIDENCE = 0.8
+MIN_TRACKING_CONFIDENCE = 0.4
 FONT = cv2.FONT_HERSHEY_SIMPLEX
 FONT_SIZE = 1
 FONT_COLOR = (0, 0, 255)
 RECTANGLE_COLOR = (0, 255, 0)
 CENTER_DOT_COLOR = (0, 0, 255)
 TEXT_OFFSET = 30
-sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-sock.connect((RASPBERRY_PICO_IP, PORT))
+
+ser = serial.Serial('COM4', 9600)
 
 # Initialize pose estimator
 mp_drawing = mp.solutions.drawing_utils
@@ -70,7 +64,8 @@ while cap.isOpened():
         if pose_results.pose_landmarks and len(pose_results.pose_landmarks.landmark) == 33:
             landmarks = pose_results.pose_landmarks.landmark
             min_x, min_y, max_x, max_y = w, h, 0, 0
-
+            mp_drawing.draw_landmarks(
+            frame, pose_results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
             for landmark in torso_landmarks:
                 x, y = int(landmarks[landmark].x * w), int(landmarks[landmark].y * h)
 
@@ -99,27 +94,27 @@ while cap.isOpened():
 
             # Draw bounding box around the torso
             cv2.rectangle(frame, (min_x, min_y), (max_x, max_y), RECTANGLE_COLOR, 2)
-
             # Check if the center dot is inside the bounding box
             if min_x <= truecen[0] <= max_x and min_y <= truecen[1] <= max_y:
                 inside = True
                 cv2.putText(frame, "COLISHUN", (30, TEXT_OFFSET * 3), FONT, FONT_SIZE, FONT_COLOR, 1)
                 csend = 'c00000'
                 print(csend)
-                sock.send(csend.encode())
+                ser.write(csend.encode())
                 time.sleep(0.05)
             else: 
                 while len(vsend) < 6:
                     vsend = vsend + '0'
                 print(vsend)
-                sock.send(vsend.encode())
+                ser.write(vsend.encode())
                 time.sleep(0.05)
                 while len(hsend) < 6:
                     hsend = hsend + '0'
                 print(hsend)
-                print(sock.send(hsend.encode()))
+                print(ser.write(hsend.encode()))
         else:
-            sock.send('banana'.encode())
+            ser.write('banana'.encode())
+            print('banana')
         # Display the frame
         cv2.imshow('Output', frame)
     
